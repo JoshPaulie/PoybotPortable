@@ -1,0 +1,38 @@
+from riotwatcher import RiotWatcher
+from prettytable import PrettyTable
+
+watcher = RiotWatcher('RGAPI-257b4853-9212-41a2-b05c-7bb33702d75a')
+
+#Summoner Names as list
+summonerNames = ['joshpaulie','mltsimpleton','poydok','boxrog','artificialmeat','roninalex','cradmajone','grillmasterlou','darthmrow','atoxichobo','ectoplax','vynle']
+list.sort(summonerNames) #Sorts alphabetically 
+
+#Region Set
+my_region = 'na1'
+
+#Creates Pretty Table
+goonTable = PrettyTable()
+goonTable.field_names = ["g00n","Rank","LP","Win Rate"]
+
+def PullSummonerData():
+    try:
+        for players in summonerNames:
+            me = watcher.summoner.by_name(my_region, players)
+            my_ranked_stats = watcher.league.by_summoner(my_region, me['id'])
+
+            for rank in my_ranked_stats:
+                if 'RANKED_SOLO_5x5' == rank['queueType']:
+                    my_solo_stats = rank
+            
+            total_solo_wins = my_solo_stats['wins']
+            total_solo_losses = my_solo_stats['losses']
+            solo_win_rate = round((total_solo_wins/(total_solo_losses + total_solo_wins)*100))
+            solo_tier = my_solo_stats['tier']
+            solo_rank = my_solo_stats['rank']
+            solo_lp = my_solo_stats['leaguePoints']
+            #goonSummoner = my_solo_stats['summonerName']
+
+            goonTable.add_row([players, solo_tier + " " + solo_rank, solo_lp, solo_win_rate])
+        return "```" + str(goonTable) + '```'
+    except:
+        return "```⚠ Error collecting data. Likley a bad API key (bc josh's code is flawless && surely this is riot's fault)```"
