@@ -36,8 +36,6 @@ async def on_message(message):
     if message.content.startswith('g.help'):
         await message.channel.send(printCommandsInDiscord())
         print(" - {} issued the help command at {}".format(message.author.name, createtimestamp()))
-        # await message.channel.send("```g.hello\n- Returns Greeting\n\ng.yo\n- Returns better greeting\n\n$rank\n-
-        # Returns goon rank data :)\n\n-* Written in 🐍 *-```")
 
     if message.content.startswith('g.joker'):
         print(" - {} issued the joker command at {}".format(message.author.name, createtimestamp()))
