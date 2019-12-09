@@ -1,7 +1,7 @@
 import discord
-from commandList import printCommandsInDiscord
-from getRankData import pull_summoner_data
-from randomKanye import generate_inspiration
+from command_list import printCommandsInDiscord
+from get_rank_data import pull_summoner_data
+from random_kanye import generate_inspiration
 from timestamp import create_timestamp
 
 print("Loading bot.. {}").format(create_timestamp())
