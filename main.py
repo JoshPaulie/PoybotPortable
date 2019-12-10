@@ -3,8 +3,10 @@ from command_list import printCommandsInDiscord
 from get_rank_data import pull_summoner_data
 from random_kanye import generate_inspiration
 from timestamp import create_timestamp
+from random_sentence import  generate_sentence
 
-print("Loading bot.. {}").format(create_timestamp())
+launchtime = "Loading bot.. {}".format(create_timestamp())
+print(launchtime)
 
 client = discord.Client()
 
@@ -42,7 +44,7 @@ async def on_message(message):
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/177125557954281472/651996397041877006/clown_2.0.jpg")
 
-    if message.content.startswith('g.fword'):
+    if message.content.startswith('g.fword') or message.content.startswith('g.faggot'):
         print(" - {} issued the fword command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/531913512822243358/651997280290734101/gamer.jpg")
@@ -80,5 +82,8 @@ async def on_message(message):
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/177125557954281472/651996299843076096/Clownrad.png")
 
+    if message.content.startswith('g.tellmeabout'):
+        print(" - {} issued the tell me about command at {}".format(message.author.name, create_timestamp()))
+        await message.channel.send(generate_sentence())
 
-client.run('NjUxNTgwMjk1OTQ1OTEyMzQw.Xeb9oA.zhmazOcAy1sXWUrnTRAIewaTreE')
+client.run('NjUxNTgwMjk1OTQ1OTEyMzQw.Xe2l_g._0pmzdyfZP6YmUkm2yrFvskyv_s')
