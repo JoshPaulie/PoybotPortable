@@ -92,11 +92,9 @@ async def on_message(message):
         await message.channel.send("https://github.com/JoshPaulie/PoybotPortable")
 
     if message.content.startswith('g.changelog'):
-        print(" - {} issued the changelog command at {}".format(message.author.name, create_timestamp()))
-        changelog = open("C:\\Users\joshp\\PycharmProjects\\PoybotPortable\\changelog.txt").read()
-        await message.channel.send("```" + changelog + "```")
+        await message.channel.send("https://github.com/JoshPaulie/PoybotPortable/wiki/Changelog")
 
-    if message.content.startswith in ('g.minecraft', 'g.minecwaft', 'g.server', 'g.ip'):
+    if message.content.startswith ('g.minecraft', 'g.minecwaft', 'g.server', 'g.ip'):
         print(" - {} issued the minecraft command at {}".format(message.author.name, create_timestamp()))
         minecraftinfo = open("C:\\Users\joshp\\PycharmProjects\\PoybotPortable\\minecraft.txt").read()
         await message.channel.send("```" + minecraftinfo + "```")
