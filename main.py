@@ -3,7 +3,8 @@ from command_list import printCommandsInDiscord
 from get_rank_data import pull_summoner_data
 from random_kanye import generate_inspiration
 from timestamp import create_timestamp
-from random_sentence import  generate_sentence
+from random_sentence import generate_sentence
+from key import get_key
 
 launchtime = "Loading bot.. {}".format(create_timestamp())
 print(launchtime)
@@ -86,4 +87,23 @@ async def on_message(message):
         print(" - {} issued the tell me about command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(generate_sentence())
 
-client.run('NjUxNTgwMjk1OTQ1OTEyMzQw.Xe2l_g._0pmzdyfZP6YmUkm2yrFvskyv_s')
+    if message.content.startswith('g.github'):
+        print(" - {} issued the github command at {}".format(message.author.name, create_timestamp()))
+        await message.channel.send("https://github.com/JoshPaulie/PoybotPortable")
+
+    if message.content.startswith('g.changelog'):
+        print(" - {} issued the changelog command at {}".format(message.author.name, create_timestamp()))
+        changelog = open("C:\\Users\joshp\\PycharmProjects\\PoybotPortable\\changelog.txt").read()
+        await message.channel.send("```" + changelog + "```")
+
+    if message.content.startswith in ('g.minecraft', 'g.minecwaft', 'g.server', 'g.ip'):
+        print(" - {} issued the minecraft command at {}".format(message.author.name, create_timestamp()))
+        minecraftinfo = open("C:\\Users\joshp\\PycharmProjects\\PoybotPortable\\minecraft.txt").read()
+        await message.channel.send("```" + minecraftinfo + "```")
+
+    if message.content.startswith('g.bell'):
+        bellemoji = '🔔'
+        await message.channel.send("Be sure to ring the bell icon!"), message.add_reaction(bellemoji)
+        #await message.add_reaction(bellemoji)
+
+client.run(get_key())
