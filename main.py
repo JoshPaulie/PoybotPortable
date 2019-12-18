@@ -6,8 +6,8 @@ from timestamp import create_timestamp
 from random_sentence import generate_sentence
 from key import get_key
 
-launchtime = "Loading bot.. {}".format(create_timestamp())
-print(launchtime)
+launched_at_time = "Loading bot.. {}".format(create_timestamp())
+print(launched_at_time)
 
 client = discord.Client()
 
@@ -23,85 +23,83 @@ async def on_message(message):
         return
 
     if message.content.startswith('g.hello'):
-        await message.channel.send("```Hello```")
-        print("- {} issued the hello command at {}".format(message.author.name, create_timestamp()))
+        await message.channel.send("Hello")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.yo'):
-        await message.channel.send("```what's up gamer?```")
-        print("- {} issued the yo command at {}".format(message.author.name, create_timestamp()))
+        await message.channel.send("what's up gamer? 😜😝🤤😤🤑🥶🥴")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.rank'):
-        print("Rank Pulled!")
-        await message.channel.send("```Pulling data... 🤖```")
-        await message.channel.send(pull_summoner_data())
-        print("- {} issued the rank command at {}".format(message.author.name, create_timestamp()))
+        await message.channel.send("Pulling data... 🤖"), await message.channel.send(pull_summoner_data())
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.help'):
-        await message.channel.send(printCommandsInDiscord())
-        print(" - {} issued the help command at {}".format(message.author.name, create_timestamp()))
+        await message.author.send('> https://github.com/JoshPaulie/PoybotPortable/wiki/Commands'), await message.add_reaction("📩")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.joker'):
-        print(" - {} issued the joker command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/177125557954281472/651996397041877006/clown_2.0.jpg")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.fword') or message.content.startswith('g.faggot'):
-        print(" - {} issued the fword command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/531913512822243358/651997280290734101/gamer.jpg")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.squad'):
-        print(" - {} issued the squad command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/177125557954281472/651997640950546443/IMG_3083.jpeg")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.bringe'):
-        print(" - {} issued the bringe command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/531913512822243358/651997904751427624/Hudboy.png")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith("g.paypig"):
-        print(" - {} issued the paypig command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send("https://www.twitch.tv/dekar173")
+        await message.add_reaction('🐽')
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith("g.pecs"):
-        print(" - {} issued the pecs command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/179743991137304576/651998903368941609/ripple.gif")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith("g.quads"):
-        print(" - {} issued the quads command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/179743991137304576/651998926500790311/quadblast.gif")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith("g.kanye"):
-        print(" - {} issued the kanye command at {}".format(message.author.name, create_timestamp()))
-        await message.channel.send(generate_inspiration())
+        quote = generate_inspiration()
+        await message.channel.send(quote)
+        print(repr(message.content), message.author.name, create_timestamp(), "\n\n Quote:\n", quote, "\n")
 
     if message.content.startswith("g.whiskeyrad"):
-        print(" - {} issued the whiskeyrad command at {}".format(message.author.name, create_timestamp()))
         await message.channel.send(
             "https://cdn.discordapp.com/attachments/177125557954281472/651996299843076096/Clownrad.png")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.tellmeabout'):
-        print(" - {} issued the tell me about command at {}".format(message.author.name, create_timestamp()))
-        await message.channel.send(generate_sentence())
+        sentence = generate_sentence()
+        await message.channel.send(sentence)
+        print(repr(message.content), message.author.name, create_timestamp(), "-", sentence)
 
     if message.content.startswith('g.github'):
-        print(" - {} issued the github command at {}".format(message.author.name, create_timestamp()))
-        await message.channel.send("https://github.com/JoshPaulie/PoybotPortable")
+        await message.author.send("> https://github.com/JoshPaulie/PoybotPortable")
+        print(repr(message.content), message.author.name, create_timestamp())
 
     if message.content.startswith('g.changelog'):
-        await message.channel.send("https://github.com/JoshPaulie/PoybotPortable/wiki/Changelog")
+        await message.author.send("> https://github.com/JoshPaulie/PoybotPortable/wiki/Changelog")
+        print(repr(message.content), message.author.name, create_timestamp())
 
-    if message.content.startswith ('g.minecraft', 'g.minecwaft', 'g.server', 'g.ip'):
-        print(" - {} issued the minecraft command at {}".format(message.author.name, create_timestamp()))
-        minecraftinfo = open("C:\\Users\joshp\\PycharmProjects\\PoybotPortable\\minecraft.txt").read()
-        await message.channel.send("```" + minecraftinfo + "```")
+    if message.content.startswith('g.mine') or message.content.startswith('g.ip'):
+        minecraft_info = open("C:\\Users\joshp\\PycharmProjects\\PoybotPortable\\minecraft.txt").read()
+        await message.author.send(minecraft_info), await message.add_reaction("📩")
+        print(repr(message.content), message.author.name, create_timestamp())
 
-    if message.content.startswith('g.bell'):
-        bellemoji = '🔔'
-        await message.channel.send("Be sure to ring the bell icon!"), message.add_reaction(bellemoji)
-        #await message.add_reaction(bellemoji)
 
 client.run(get_key())

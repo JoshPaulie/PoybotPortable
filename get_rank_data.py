@@ -1,7 +1,7 @@
 from riotwatcher import RiotWatcher
 from prettytable import PrettyTable
 
-watcher = RiotWatcher('RGAPI-257b4853-9212-41a2-b05c-7bb33702d75a')
+watcher = RiotWatcher('RGAPI-83890cba-0499-451e-8272-72380bee4af9')
 
 # Summoner Names as list
 summonerNames = ['joshpaulie', 'mltsimpleton', 'poydok', 'boxrog', 'artificialmeat', 'roninalex', 'cradmajone',
