@@ -1,105 +1,152 @@
 import discord
-from command_list import printCommandsInDiscord
-from get_rank_data import pull_summoner_data
-from random_kanye import generate_inspiration
-from timestamp import create_timestamp
-from random_sentence import generate_sentence
-from key import get_key
-
-launched_at_time = "Loading bot.. {}".format(create_timestamp())
-print(launched_at_time)
+from discord.ext import commands
+from modules.timestamp import create_timestamp
+from modules.random_emoji import generate_emoji
+from modules.get_rank_data import pull_summoner_data
+from modules.random_kanye import generate_inspiration
+from modules.random_sentence import generate_sentence
+from modules.discordbot_key import get_discord_key
 
 client = discord.Client()
+bot = commands.Bot(command_prefix="g.")
 
 
-@client.event
+def log(message: discord.Message):
+    print(message.content, message.author.name, create_timestamp())
+
+
+@bot.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print('Connected. I think.'.format(client), create_timestamp())
 
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('g.hello'):
-        await message.channel.send("Hello")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.yo'):
-        await message.channel.send("what's up gamer? 😜😝🤤😤🤑🥶🥴")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.rank'):
-        await message.channel.send("Pulling data... 🤖"), await message.channel.send(pull_summoner_data())
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.help'):
-        await message.author.send('> https://github.com/JoshPaulie/PoybotPortable/wiki/Commands'), await message.add_reaction("📩")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.joker'):
-        await message.channel.send(
-            "https://cdn.discordapp.com/attachments/177125557954281472/651996397041877006/clown_2.0.jpg")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.fword') or message.content.startswith('g.faggot'):
-        await message.channel.send(
-            "https://cdn.discordapp.com/attachments/531913512822243358/651997280290734101/gamer.jpg")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.squad'):
-        await message.channel.send(
-            "https://cdn.discordapp.com/attachments/177125557954281472/651997640950546443/IMG_3083.jpeg")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.bringe'):
-        await message.channel.send(
-            "https://cdn.discordapp.com/attachments/531913512822243358/651997904751427624/Hudboy.png")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith("g.paypig"):
-        await message.channel.send("https://www.twitch.tv/dekar173")
-        await message.add_reaction('🐽')
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith("g.pecs"):
-        await message.channel.send(
-            "https://cdn.discordapp.com/attachments/179743991137304576/651998903368941609/ripple.gif")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith("g.quads"):
-        await message.channel.send(
-            "https://cdn.discordapp.com/attachments/179743991137304576/651998926500790311/quadblast.gif")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith("g.kanye"):
-        quote = generate_inspiration()
-        await message.channel.send(quote)
-        print(repr(message.content), message.author.name, create_timestamp(), "\n\n Quote:\n", quote, "\n")
-
-    if message.content.startswith("g.whiskeyrad"):
-        await message.channel.send(
-            "https://cdn.discordapp.com/attachments/177125557954281472/651996299843076096/Clownrad.png")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.tellmeabout'):
-        sentence = generate_sentence()
-        await message.channel.send(sentence)
-        print(repr(message.content), message.author.name, create_timestamp(), "-", sentence)
-
-    if message.content.startswith('g.github'):
-        await message.author.send("> https://github.com/JoshPaulie/PoybotPortable")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.changelog'):
-        await message.author.send("> https://github.com/JoshPaulie/PoybotPortable/wiki/Changelog")
-        print(repr(message.content), message.author.name, create_timestamp())
-
-    if message.content.startswith('g.mine') or message.content.startswith('g.ip'):
-        minecraft_info = open("C:\\Users\joshp\\PycharmProjects\\PoybotPortable\\minecraft.txt").read()
-        await message.author.send(minecraft_info), await message.add_reaction("📩")
-        print(repr(message.content), message.author.name, create_timestamp())
+    await bot.process_commands(message)
 
 
-client.run(get_key())
+@bot.command(name="hello", aliases=["hi", "hey", "ho"])
+async def hello(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send("Hello there {}, I'm Poybot 2! {}".format(message.author.name, generate_emoji()))
+    log(message)
+
+@bot.command(name="yo", aliases=['yuh'])
+async def yo(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send("What's up gamer {} {}".format(message.author.name,generate_emoji()))
+    log(message)
+
+
+@bot.command(name="rank", aliases=['ranks'])
+async def rank(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(pull_summoner_data())
+    # This will not be logged like usual.
+    # I don't want rank data cluttering the log.
+    print('Rank data pulled!', message.author.name, create_timestamp())
+
+bot.remove_command('help')
+@bot.command(name="help", aliases=["", "g"])
+async def help(ctx: commands.Context):
+    message = ctx.message
+    await message.author.send(
+        '> https://github.com/JoshPaulie/PoybotPortable/wiki/Commands'), await message.add_reaction("📩")
+    log(message)
+
+
+@bot.command(name="joker")
+async def joker(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(
+        "https://cdn.discordapp.com/attachments/177125557954281472/651996397041877006/clown_2.0.jpg")
+    log(message)
+
+
+@bot.command(name="fword")
+async def fword(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(
+        "https://cdn.discordapp.com/attachments/531913512822243358/651997280290734101/gamer.jpg")
+    log(message)
+
+
+@bot.command(name="squad")
+async def squad(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(
+        "https://cdn.discordapp.com/attachments/177125557954281472/651997640950546443/IMG_3083.jpeg")
+    log(message)
+
+
+@bot.command(name="bringe")
+async def foo(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(
+        "https://cdn.discordapp.com/attachments/531913512822243358/651997904751427624/Hudboy.png")
+    log(message)
+
+@bot.command(name="paypig")
+async def foo(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send("https://www.twitch.tv/dekar173")
+    await message.add_reaction('🐽')
+    log(message)
+
+
+@bot.command(name="pecs")
+async def foo(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(
+        "https://cdn.discordapp.com/attachments/179743991137304576/651998903368941609/ripple.gif")
+    log(message)
+
+
+@bot.command(name="quads")
+async def foo(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(
+        "https://cdn.discordapp.com/attachments/179743991137304576/651998926500790311/quadblast.gif")
+    log(message)
+
+
+@bot.command(name="kanye")
+async def kanye(ctx: commands.Context):
+    message = ctx.message
+    quote = generate_inspiration()
+    await message.channel.send(quote)
+    # Another weird logging exception.
+    print(message.content, message.author.name, create_timestamp(),quote)
+
+@bot.command(name="tellmeabout")
+async def tellmeabout(ctx: commands.Context, arg):
+    message = ctx.message
+    sentence = generate_sentence(arg)
+    await message.channel.send(sentence)
+    # Logging UwU
+    print(message.content, "-", message.author.name, '-', sentence)
+
+@bot.command(name="github")
+async def foo(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(
+        "> https://github.com/JoshPaulie/PoybotPortable")
+    log(message)
+
+@bot.command(name="minecraft", aliases=['ip','minecrap','minecwaft','winecraft','mindcraft'])
+async def minecraft(ctx: commands.Context):
+    message = ctx.message
+    minecraft_info = open("C:\\Users\\joshp\\PycharmProjects\\PoybotPortable\\resources\\minecraft.txt").read()
+    await message.author.send(minecraft_info), await message.add_reaction("📩")
+    log(message)
+
+# Template
+@bot.command(name="foo",)
+async def foo(ctx: commands.Context):
+    message = ctx.message
+    await message.channel.send(
+        "")
+    log(message)
+
+
+bot.run(get_discord_key())

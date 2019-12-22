@@ -1,7 +1,8 @@
 from riotwatcher import RiotWatcher
 from prettytable import PrettyTable
+from modules.league_key import get_league_key
 
-watcher = RiotWatcher('RGAPI-83890cba-0499-451e-8272-72380bee4af9')
+watcher = RiotWatcher(get_league_key())
 
 # Summoner Names as list
 summonerNames = ['joshpaulie', 'mltsimpleton', 'poydok', 'boxrog', 'artificialmeat', 'roninalex', 'cradmajone',
@@ -38,3 +39,4 @@ def pull_summoner_data():
         return "```" + str(goonTable) + '```'
     except:
         return "```⚠ Error collecting data. Likley a bad API key (bc josh's code is flawless && surely this is riot's fault)```"
+
