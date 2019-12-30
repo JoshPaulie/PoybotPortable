@@ -3,3 +3,7 @@
 ~ IP: `192.95.36.158:25594`
 - Vanilla w/ custom seed for cool close biomes
 - *24/7 uptime* and 346% more reliable than poybot*
+- Server is locked on 1.15 for compatibility's sake
+- /sethome /home /delhome
+- Visit http://192.95.36.158:8123/ for a live map! See who's online!
+- it's just josh. :(
