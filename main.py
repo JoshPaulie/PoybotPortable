@@ -7,6 +7,12 @@ from modules.random_kanye import generate_inspiration
 from modules.random_sentence import generate_sentence
 from modules.discordbot_key import get_discord_key
 from modules.days_until_2020 import season_2020_start
+import random
+import datetime
+from pathlib import Path
+from modules.random_game import generate_random_game
+
+pb_dir = Path('C:\\Users\\joshp\\PycharmProjects\\PoybotPortable\\')
 
 client = discord.Client()
 bot = commands.Bot(command_prefix="g.", case_insensitive=True)
@@ -15,17 +21,35 @@ bot = commands.Bot(command_prefix="g.", case_insensitive=True)
 def log(message: discord.Message):
     print(message.content, message.author.name, create_timestamp())
 
-
+start_time = datetime.datetime.now()
 
 @bot.event
 async def on_ready():
-    print('Connected!'.format(client), create_timestamp())
+    end_time = datetime.datetime.now()
+    difference = end_time - start_time
+    seconds_in_day = 24 * 60 * 60
+    boot_time = divmod(difference.days * seconds_in_day + difference.seconds, 60)
+    print('Connected! Launch time: {}s |'.format(boot_time[1]), create_timestamp())
+    game = discord.Game(generate_random_game())
+    await bot.change_presence(status=discord.Status.online, activity=game,afk=False)
 
 
 
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
+    if message.author.bot:
+        pass
+    else:
+        if 'daniel'in message.content:
+            message_string = message.content
+            await message.channel.send('>>> Beef Protection Act (BPA) Compliant Message from {}:\n{}'.format(message.author,message_string.replace('daniel','`[REDACTED]`')))
+            await message.delete()
+        elif 'Daniel'in message.content:
+            message_string = message.content
+            await message.channel.send('>>> Beef Protection Act (BPA) Compliant Message from {}:\n{}'.format(message.author, message_string.replace('Daniel', '`[REDACTED]`')))
+            await message.delete()
+    return
 
 
 @bot.command(name='hello', aliases=['hi', 'hey', 'ho'])
@@ -48,7 +72,7 @@ async def yo(ctx: commands.Context):
 async def rank(ctx: commands.Context):
     '''Pulls summoner ranks for list of gooners'''
     message = ctx.message
-    await message.channel.send('Pulling rank data..🤖')
+    await message.channel.send('Pulling rank data.. 🤖')
     await message.channel.send(pull_summoner_data())
     log(message)
 
@@ -81,7 +105,7 @@ async def squad(ctx: commands.Context):
 
 
 @bot.command(name='bringe')
-async def foo(ctx: commands.Context):
+async def bringe(ctx: commands.Context):
     '''Better cringe'''
     message = ctx.message
     await message.channel.send(
@@ -152,14 +176,22 @@ async def s20(ctx: commands.Context):
     await message.channel.send(season_2020_start())
     log(message)
 
+@bot.command(name='conbar', aliases=["conbon","jew"])
+async def conbar(ctx: commands.Context):
+    '''Days until Conrad's Bar Mitzvah'''
+    start_date = datetime.datetime(2020, 3, 13)
+    today_date = datetime.datetime.today()
+    date_difference = start_date - today_date
+    message = ctx.message
+    await message.channel.send("There's only {} days until Conrad's Bar Mitzvah! *March 13rd!* 🔯".format(date_difference.days))
+    log(message)
 
 # Template
 @bot.command(name="foo")
 async def foo(ctx: commands.Context):
     '''Template command'''
     message = ctx.message
-    await message.channel.send(
-        "")
+    await message.channel.send("Hey siri, define 'foo'")
     log(message)
 
 bot.run(get_discord_key())

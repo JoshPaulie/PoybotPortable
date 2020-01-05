@@ -7,7 +7,7 @@ watcher = RiotWatcher(get_league_key())
 # Summoner Names as list
 summonerNames = ['joshpaulie', 'mltsimpleton', 'poydok', 'boxrog', 'artificialmeat', 'roninalex', 'cradmajone',
                  'grillmasterlou', 'darthmrow', 'atoxichobo', 'ectoplax', 'vynle']
-list.sort(summonerNames)  # Sorts alphabetically
+list.sort(summonerNames)  # This function Sorts summoner names alphabetically
 
 # Region Set
 my_region = 'na1'
